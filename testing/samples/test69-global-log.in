@@ -1,0 +1,35 @@
+# Set up a simple chain of commands and see if global log an flog are equal without branching
+> init
+<<<
++ bug.txt wug.txt
+> add bug.txt
+<<<
+> commit "incarnated a bug"
+<<<
+D DATE1 "Date: \w\w\w \w\w\w \d+ \d\d:\d\d:\d\d \d\d\d\d"
+D COMMIT_LOG "(===[ ]*\ncommit [a-f0-9]+[ ]*\n(?:Merge:\s+[0-9a-f]{7}\s+[0-9a-f]{7}[ ]*\n)?${DATE1}) [-+](\d\d\d\d[ ]*\n(?:.|\n)*?(?=\Z|\n===))"
+> global-log
+${COMMIT_LOG}
+${COMMIT_LOG}
+<<<*
+# See if remove works correctly
+> rm bug.txt
+<<<
+> commit "squashed said bug"
+<<<
+> global-log
+${COMMIT_LOG}
+${COMMIT_LOG}
+${COMMIT_LOG}
+<<<*
++ bug.txt wug.txt
+> add bug.txt
+<<<
+> commit "incarnated a bug"
+<<<
+> global-log
+${COMMIT_LOG}
+${COMMIT_LOG}
+${COMMIT_LOG}
+${COMMIT_LOG}
+<<<*
